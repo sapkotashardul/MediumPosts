@@ -57,7 +57,7 @@
 		C10975633BEE4A16A4E48094 /* Pods-weatherBot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-weatherBot.release.xcconfig"; path = "Pods/Target Support Files/Pods-weatherBot/Pods-weatherBot.release.xcconfig"; sourceTree = "<group>"; };
 		E8F01AED22B8502E0078D320 /* EmpaticaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmpaticaViewController.swift; sourceTree = "<group>"; };
 		E8F01B0122B9C5C40078D320 /* E4link.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = E4link.framework; path = "../../e4link-sample-project-ios/Libs/E4link.framework"; sourceTree = "<group>"; };
-		E8F01B0322B9C7B90078D320 /* weatherBot-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "weatherBot-Bridging-Header.h"; sourceTree = "<group>"; };
+		E8F01B0322B9C7B90078D320 /* prospero-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "prospero-Bridging-Header.h"; sourceTree = "<group>"; };
 		E8F01B0722B9E9A60078D320 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E8F01B6222BA353F0078D320 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F502EEF22009A937001A78E6 /* WeatherIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIntent.swift; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 		F5AAF0BE1F6376DE00BFCEC7 /* WeatherParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherParameters.swift; sourceTree = "<group>"; };
 		F5AAF0C01F64A00C00BFCEC7 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		F5AAF0C21F64A5A900BFCEC7 /* WeatherMessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherMessageManager.swift; sourceTree = "<group>"; };
-		F5CFD56B1ED70BCF00A01967 /* weatherBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = weatherBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5CFD56B1ED70BCF00A01967 /* prospero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prospero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5CFD56E1ED70BCF00A01967 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F5CFD5701ED70BCF00A01967 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		F5CFD5731ED70BCF00A01967 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -217,7 +217,7 @@
 			children = (
 				E8F01B6222BA353F0078D320 /* Assets.xcassets */,
 				E8F01B0922B9EAA90078D320 /* Libs */,
-				F5CFD56D1ED70BCF00A01967 /* weatherBot */,
+				F5CFD56D1ED70BCF00A01967 /* prospero */,
 				F5CFD56C1ED70BCF00A01967 /* Products */,
 				5DCD6B34B7C4057C573595AA /* Pods */,
 				C48E2E6F83B39F8DABEC298E /* Frameworks */,
@@ -227,15 +227,15 @@
 		F5CFD56C1ED70BCF00A01967 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F5CFD56B1ED70BCF00A01967 /* weatherBot.app */,
+				F5CFD56B1ED70BCF00A01967 /* prospero.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F5CFD56D1ED70BCF00A01967 /* weatherBot */ = {
+		F5CFD56D1ED70BCF00A01967 /* prospero */ = {
 			isa = PBXGroup;
 			children = (
-				E8F01B0322B9C7B90078D320 /* weatherBot-Bridging-Header.h */,
+				E8F01B0322B9C7B90078D320 /* prospero-Bridging-Header.h */,
 				F5CFD56E1ED70BCF00A01967 /* AppDelegate.swift */,
 				F551CCBA1F219EC70072ACDD /* Controller */,
 				F551CCB91F219EA90072ACDD /* Views */,
@@ -246,7 +246,7 @@
 				F5FFFBDF1F1B98CC00C24628 /* UI */,
 				F5CFD57A1ED70BCF00A01967 /* Info.plist */,
 			);
-			path = weatherBot;
+			path = prospero;
 			sourceTree = "<group>";
 		};
 		F5F2BC581F1EF94300203D4A /* Models */ = {
@@ -295,9 +295,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F5CFD56A1ED70BCF00A01967 /* weatherBot */ = {
+		F5CFD56A1ED70BCF00A01967 /* prospero */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F5CFD57D1ED70BCF00A01967 /* Build configuration list for PBXNativeTarget "weatherBot" */;
+			buildConfigurationList = F5CFD57D1ED70BCF00A01967 /* Build configuration list for PBXNativeTarget "prospero" */;
 			buildPhases = (
 				40F478087D198BC5782F037A /* [CP] Check Pods Manifest.lock */,
 				F5CFD5671ED70BCF00A01967 /* Sources */,
@@ -309,9 +309,9 @@
 			);
 			dependencies = (
 			);
-			name = weatherBot;
+			name = prospero;
 			productName = weatherBot;
-			productReference = F5CFD56B1ED70BCF00A01967 /* weatherBot.app */;
+			productReference = F5CFD56B1ED70BCF00A01967 /* prospero.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -336,7 +336,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F5CFD5661ED70BCF00A01967 /* Build configuration list for PBXProject "weatherBot" */;
+			buildConfigurationList = F5CFD5661ED70BCF00A01967 /* Build configuration list for PBXProject "prospero" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -349,7 +349,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F5CFD56A1ED70BCF00A01967 /* weatherBot */,
+				F5CFD56A1ED70BCF00A01967 /* prospero */,
 			);
 		};
 /* End PBXProject section */
@@ -605,13 +605,13 @@
 					"$(PROJECT_DIR)/Libs/**",
 					"$(PROJECT_DIR)/Libs",
 				);
-				INFOPLIST_FILE = weatherBot/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/prospero/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = prospero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "weatherBot/weatherBot-Bridging-Header.h";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "weatherBot/weatherBot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "prospero/prospero-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "prospero/prospero-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -629,13 +629,13 @@
 					"$(PROJECT_DIR)/Libs/**",
 					"$(PROJECT_DIR)/Libs",
 				);
-				INFOPLIST_FILE = weatherBot/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/prospero/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = prospero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "weatherBot/weatherBot-Bridging-Header.h";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "weatherBot/weatherBot-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "prospero/prospero-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "prospero/prospero-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -643,7 +643,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F5CFD5661ED70BCF00A01967 /* Build configuration list for PBXProject "weatherBot" */ = {
+		F5CFD5661ED70BCF00A01967 /* Build configuration list for PBXProject "prospero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F5CFD57B1ED70BCF00A01967 /* Debug */,
@@ -652,7 +652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F5CFD57D1ED70BCF00A01967 /* Build configuration list for PBXNativeTarget "weatherBot" */ = {
+		F5CFD57D1ED70BCF00A01967 /* Build configuration list for PBXNativeTarget "prospero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F5CFD57E1ED70BCF00A01967 /* Debug */,

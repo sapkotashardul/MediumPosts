@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:weatherBot.xcodeproj">
+      location = "group:/Users/sapkotashardul/Documents/github/Prospero-iOS/Prospero/prospero.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

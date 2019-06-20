@@ -14,7 +14,7 @@
 import UIKit
 //import <E4link/E4link.h>
 
-class ViewController: UITableViewController {
+class EmpaticaViewController: UIViewController {
     
     
     static let EMPATICA_API_KEY = "62e322cb9dac410e9041afc08d977669"
@@ -33,14 +33,14 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        self.tableView.delegate = self
-        
-        self.tableView.dataSource = self
+//        initEmpatica()
+    }
+    
+    func initEmpatica(){
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
             
-            EmpaticaAPI.authenticate(withAPIKey: ViewController.EMPATICA_API_KEY) { (status, message) in
+            EmpaticaAPI.authenticate(withAPIKey: EmpaticaViewController.EMPATICA_API_KEY) { (status, message) in
                 
                 if status {
                     
@@ -55,8 +55,7 @@ class ViewController: UITableViewController {
         }
     }
     
-    private func discover() {
-        
+   private func discover() {
         EmpaticaAPI.discoverDevices(with: self)
     }
     
@@ -73,48 +72,47 @@ class ViewController: UITableViewController {
     }
     
     private func connect(device: EmpaticaDeviceManager) {
-        
         device.connect(with: self)
     }
     
-    private func updateValue(device : EmpaticaDeviceManager, string : String = "") {
-        
-        if let row = self.devices.index(of: device) {
-            
-            DispatchQueue.main.async {
-                
-                for cell in self.tableView.visibleCells {
-                    
-                    if let cell = cell as? DeviceTableViewCell {
-                        
-                        if cell.device == device {
-                            
-                            let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: 0))
-                            
-                            if !device.allowed {
-                                
-                                cell?.detailTextLabel?.text = "NOT ALLOWED"
-                                
-                                cell?.detailTextLabel?.textColor = UIColor.orange
-                            }
-                            else if string.count > 0 {
-                                
-                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(string)"
-                                
-                                cell?.detailTextLabel?.textColor = UIColor.gray
-                            }
-                            else {
-                                
-                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
-                                
-                                cell?.detailTextLabel?.textColor = UIColor.gray
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    private func updateValue(device : EmpaticaDeviceManager, string : String = "") {
+//
+//        if let row = self.devices.index(of: device) {
+//
+//            DispatchQueue.main.async {
+//
+//                for cell in self.tableView.visibleCells {
+//
+//                    if let cell = cell as? DeviceTableViewCell {
+//
+//                        if cell.device == device {
+//
+//                            let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: 0))
+//
+//                            if !device.allowed {
+//
+//                                cell?.detailTextLabel?.text = "NOT ALLOWED"
+//
+//                                cell?.detailTextLabel?.textColor = UIColor.orange
+//                            }
+//                            else if string.count > 0 {
+//
+//                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(string)"
+//
+//                                cell?.detailTextLabel?.textColor = UIColor.gray
+//                            }
+//                            else {
+//
+//                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
+//
+//                                cell?.detailTextLabel?.textColor = UIColor.gray
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     private func deviceStatusDisplay(status : DeviceStatus) -> String {
         
@@ -151,7 +149,7 @@ class ViewController: UITableViewController {
 }
 
 
-extension ViewController: EmpaticaDelegate {
+extension EmpaticaViewController: EmpaticaDelegate {
     
     func didDiscoverDevices(_ devices: [Any]!) {
         
@@ -167,12 +165,17 @@ extension ViewController: EmpaticaDelegate {
             
             DispatchQueue.main.async {
                 
-                self.tableView.reloadData()
-                
+                if (!self.devices.isEmpty){
+                    self.connect(device: self.devices[0])
+                }
+
                 if self.allDisconnected {
-                    
+
                     EmpaticaAPI.discoverDevices(with: self)
                 }
+                
+            
+
             }
         }
     }
@@ -195,7 +198,7 @@ extension ViewController: EmpaticaDelegate {
     }
 }
 
-extension ViewController: EmpaticaDeviceDelegate {
+extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
     func didReceiveTemperature(_ temp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
@@ -216,13 +219,12 @@ extension ViewController: EmpaticaDeviceDelegate {
         
         print("\(device.serialNumber!) GSR { \(abs(gsr)) }")
         
-        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
+//        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }
     
     func didUpdate( _ status: DeviceStatus, forDevice device: EmpaticaDeviceManager!) {
         
-        self.updateValue(device: device)
-        
+
         switch status {
             
         case kDeviceStatusDisconnected:
@@ -264,58 +266,58 @@ extension ViewController: EmpaticaDeviceDelegate {
     }
 }
 
-extension ViewController {
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        EmpaticaAPI.cancelDiscovery()
-        
-        let device = self.devices[indexPath.row]
-        
-        if device.deviceStatus == kDeviceStatusConnected || device.deviceStatus == kDeviceStatusConnecting {
-            
-            self.disconnect(device: device)
-        }
-        else if !device.isFaulty && device.allowed {
-            
-            self.connect(device: device)
-        }
-        
-        self.updateValue(device: device)
-    }
-}
+//extension EmpaticaViewController {
+//
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//        tableView.deselectRow(at: indexPath, animated: true)
+//
+//        EmpaticaAPI.cancelDiscovery()
+//
+//        let device = self.devices[indexPath.row]
+//
+//        if device.deviceStatus == kDeviceStatusConnected || device.deviceStatus == kDeviceStatusConnecting {
+//
+//            self.disconnect(device: device)
+//        }
+//        else if !device.isFaulty && device.allowed {
+//
+//            self.connect(device: device)
+//        }
+//
+////        self.updateValue(device: device)
+//    }
+//}
 
-extension ViewController {
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return self.devices.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let device = self.devices[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "device") as? DeviceTableViewCell ?? DeviceTableViewCell(device: device)
-        
-        cell.device = device
-        
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
-        cell.textLabel?.text = "E4 \(device.serialNumber!)"
-        
-        cell.alpha = device.isFaulty || !device.allowed ? 0.2 : 1.0
-        
-        return cell
-    }
-}
+//extension EmpaticaViewController {
+//
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//
+//        return 1
+//    }
+//
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//
+//        return self.devices.count
+//    }
+//
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        let device = self.devices[indexPath.row]
+//
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "device") as? DeviceTableViewCell ?? DeviceTableViewCell(device: device)
+//
+//        cell.device = device
+//
+//        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+//
+//        cell.textLabel?.text = "E4 \(device.serialNumber!)"
+//
+//        cell.alpha = device.isFaulty || !device.allowed ? 0.2 : 1.0
+//
+//        return cell
+//    }
+//}
 
 class DeviceTableViewCell : UITableViewCell {
     

@@ -28,6 +28,9 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var tableView = UITableView()
     var messages = [Message]()
     
+    var empaticaVC = EmpaticaViewController()
+    private var devices: [EmpaticaDeviceManager] = []
+    
     var isMenuHidden: Bool = false {
         didSet {
             if oldValue == isMenuHidden {
@@ -150,6 +153,9 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             print("scrollViewDidReachBottom")
         }
         
+        
+        empaticaVC.initEmpatica()
+
         //send welcome message
         sendWelcomeMessage()
         
