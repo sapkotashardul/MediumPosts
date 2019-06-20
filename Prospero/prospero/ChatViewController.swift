@@ -299,7 +299,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     func sendWelcomeMessage() {
         let firstTime = true
         if firstTime {
-            let text = "Oh hello again Jon. I hope you’ve been well. What would you like to hear?"
+            let text = "Welcome to Prospero!"
             let message = Message(text: text, date: Date(), type: .botText)
             messages.append(message)
         }

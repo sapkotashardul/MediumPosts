@@ -22,7 +22,7 @@ class AIRequest {
     }
     
     func getHeaders() -> HTTPHeaders {
-        let clientAccessToken = "YOUR_KEY_HERE"
+        let clientAccessToken = "8c253081ae5e4dfe88c2074b8ff51d4c"
         let headers: HTTPHeaders = [
             "Authorization": "Bearer " + clientAccessToken,
             ]
