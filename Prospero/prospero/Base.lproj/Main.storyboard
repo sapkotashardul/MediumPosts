@@ -12,7 +12,7 @@
         <!--Chat View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ChatViewController" customModule="weatherBot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ChatViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -30,7 +30,7 @@
         <!--Home View Controller-->
         <scene sceneID="Pw8-Ib-UH0">
             <objects>
-                <viewController id="C2J-Fo-Wfe" customClass="HomeViewController" customModule="weatherBot" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="C2J-Fo-Wfe" customClass="HomeViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Afd-Qg-yQX"/>
                         <viewControllerLayoutGuide type="bottom" id="5VZ-GV-bvW"/>

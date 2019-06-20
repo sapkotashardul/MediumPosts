@@ -22,6 +22,9 @@ class EmpaticaViewController: UIViewController {
     
     private var devices: [EmpaticaDeviceManager] = []
     
+//    var chatVC = ChatViewController().backbu
+    var backButton = UIButton()
+    
     private var allDisconnected : Bool {
         
         return self.devices.reduce(true) { (value, device) -> Bool in
@@ -29,14 +32,23 @@ class EmpaticaViewController: UIViewController {
             value && device.deviceStatus == kDeviceStatusDisconnected
         }
     }
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
 //        initEmpatica()
     }
     
-    func initEmpatica(){
+    
+    
+    func get_devices() -> [EmpaticaDeviceManager]{
+        return self.devices
+    }
+    
+    
+
+    
+    func initEmpatica(backButton: UIButton){
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
             
@@ -49,6 +61,7 @@ class EmpaticaViewController: UIViewController {
                     DispatchQueue.main.async {
                         
                         self.discover()
+                        self.backButton = backButton
                     }
                 }
             }
@@ -231,6 +244,8 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
             print("[didUpdate] Disconnected \(device.serialNumber!).")
             
+            backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+
             self.restartDiscovery()
             
             break
@@ -243,6 +258,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         case kDeviceStatusConnected:
             
             print("[didUpdate] Connected \(device.serialNumber!).")
+            backButton.backgroundColor = UIColor.green.withAlphaComponent(0.7)
             break
             
         case kDeviceStatusFailedToConnect:

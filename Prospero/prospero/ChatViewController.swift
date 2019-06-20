@@ -88,9 +88,15 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         //add back button
         let backButton = UIButton()
         backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+//        var empaticaDevices = empaticaVC.get_devices()
+//        if (!empaticaDevices.isEmpty){
+//            print("I AM HEREHERHERHERHERHER")
+//                backButton.backgroundColor = UIColor.green.withAlphaComponent(0.7)
+//        }
         backButton.clipsToBounds = true
         backButton.layer.cornerRadius = 25
         backButton.setImage(UIImage(named: "icon_close"), for: .normal)
@@ -103,15 +109,26 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             make.centerX.equalTo(containerView)
         }
         
+        empaticaVC.initEmpatica(backButton: backButton)
+        
         //setup tool bar
         let textView: UITextView = UITextView(frame: .zero)
         textView.delegate = self
-        textView.font = UIFont.systemFont(ofSize: 14)
+        textView.font = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = UIColor.black.withAlphaComponent(0.30)
         textView.textColor = .white
         self.textView = textView
         textView.layer.cornerRadius = 10
+        print("textView.frame.height")
         item0 = ToolbarItem(customView: textView)
+        item0?.snp.makeConstraints {(make) -> Void in
+            make.height.equalTo(40)
+            make.width.equalTo(310)
+//            make.left.equalTo(self.view.snp_right).offset(20)
+//            make.leftMargin.equalTo(10)
+//            make.left.equalTo(containerView.snp_left).offset(-10)
+//            make.width.equalTo(50)
+        }
         item1 = ToolbarItem(title: "SEND", target: self, action: #selector(send))
         item1!.tintColor = .mainGreen
         item1!.setEnabled(true, animated: false)
@@ -152,9 +169,6 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         tableView.re.scrollViewDidReachBottom = { scrollView in
             print("scrollViewDidReachBottom")
         }
-        
-        
-        empaticaVC.initEmpatica()
 
         //send welcome message
         sendWelcomeMessage()

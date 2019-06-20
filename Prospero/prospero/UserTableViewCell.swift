@@ -37,7 +37,7 @@ class UserTableViewCell: UITableViewCell {
     func configure(with message: Message) {
         
         iconImageView.image = UIImage(named: message.getImage())
-        
+
         messageLabel.text = message.text
         messageLabel.textColor = .chatBackgroundStart
         
