@@ -14,7 +14,7 @@ import Alamofire
 import PromiseKit
 import AVFoundation
 
-class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate  {
+class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate  {
     
     //tool bar
     let containerView = UIView()
@@ -154,6 +154,11 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hide))
         self.view.addGestureRecognizer(gestureRecognizer)
         
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.stopVoiceSynthesizer(_:)))
+
+        self.view.addGestureRecognizer(tapGesture)
+        
         //setup messages table view
         tableView.dataSource = self
         tableView.delegate = self
@@ -180,11 +185,23 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         sendWelcomeMessage()
         
     }
+    
+    @objc func stopVoiceSynthesizer(_ sender: UITapGestureRecognizer) {
+        if speechSynthesizer.isSpeaking {
+            // when synth is already speaking or is in paused state
+            
+            if speechSynthesizer.isPaused {
+                speechSynthesizer.continueSpeaking()
+            }else {
+                speechSynthesizer.pauseSpeaking(at: AVSpeechBoundary.immediate)
+            }
+    }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -198,6 +215,12 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         self.toolbar.setNeedsUpdateConstraints()
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // User tapped on screen, do something
+        print("USER TAPPED TO SCREEN")
+        return false
     }
     
     // MARK: back button
