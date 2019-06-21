@@ -18,12 +18,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAr-2l-xGb">
-                        <rect key="frame" x="210" y="29" width="50" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAr-2l-xGb">
+                        <rect key="frame" x="214.5" y="32" width="45" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="vA8-Jb-H1R"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.31372549020000001" green="0.88235294119999996" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -45,8 +45,8 @@
                             <constraint firstAttribute="trailing" secondItem="les-zh-HVH" secondAttribute="trailing" constant="12" id="lZn-zf-mha"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="PJx-Tv-OLq">
-                        <rect key="frame" x="170" y="11" width="32" height="32"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="PJx-Tv-OLq">
+                        <rect key="frame" x="174.5" y="12" width="32" height="32"/>
                         <color key="backgroundColor" red="0.002635958837" green="0.7789731754" blue="0.99869579080000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="32" id="jHC-qY-Fzv"/>
@@ -73,7 +73,7 @@
                 <outlet property="messageLabel" destination="les-zh-HVH" id="tMR-pz-Uyd"/>
                 <outlet property="timeLabel" destination="bAr-2l-xGb" id="vfD-wb-zF2"/>
             </connections>
-            <point key="canvasLocation" x="-1.6000000000000001" y="15.292353823088456"/>
+            <point key="canvasLocation" x="-1" y="16"/>
         </tableViewCell>
     </objects>
     <resources>

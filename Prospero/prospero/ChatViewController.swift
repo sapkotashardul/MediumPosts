@@ -12,6 +12,7 @@ import SnapKit
 import ReverseExtension
 import Alamofire
 import PromiseKit
+import AVFoundation
 
 class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate  {
     
@@ -30,6 +31,15 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     var empaticaVC = EmpaticaViewController()
     private var devices: [EmpaticaDeviceManager] = []
+    
+    //speech syntehsizer
+    var speechSynthesizer = AVSpeechSynthesizer()
+    var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
+
+//    speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+
+//    speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
+
     
     var isMenuHidden: Bool = false {
         didSet {
@@ -92,11 +102,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         //add back button
         let backButton = UIButton()
         backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-//        var empaticaDevices = empaticaVC.get_devices()
-//        if (!empaticaDevices.isEmpty){
-//            print("I AM HEREHERHERHERHERHER")
-//                backButton.backgroundColor = UIColor.green.withAlphaComponent(0.7)
-//        }
+
         backButton.clipsToBounds = true
         backButton.layer.cornerRadius = 25
         backButton.setImage(UIImage(named: "icon_close"), for: .normal)
@@ -169,7 +175,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         tableView.re.scrollViewDidReachBottom = { scrollView in
             print("scrollViewDidReachBottom")
         }
-
+        
         //send welcome message
         sendWelcomeMessage()
         
@@ -253,6 +259,13 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 ai.intent.createMessage()
             }.then {(message) -> Void in
                 self.sendMessage(message)
+                
+                let utterance = AVSpeechUtterance(string: message.text)
+                
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                
+                self.speechSynthesizer.speak(utterance)
+
             }.catch { (error) in
                 //oh noes error
             }
@@ -314,6 +327,14 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         let firstTime = true
         if firstTime {
             let text = "Welcome to Prospero!"
+            
+            
+            let utterance = AVSpeechUtterance(string: text)
+
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+
+            self.speechSynthesizer.speak(utterance)
+            
             let message = Message(text: text, date: Date(), type: .botText)
             messages.append(message)
         }
