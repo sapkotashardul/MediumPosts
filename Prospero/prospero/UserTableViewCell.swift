@@ -10,7 +10,7 @@ import UIKit
 
 class UserTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var iconImageView: UIImageView!
+//    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var labelContainerView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
@@ -18,8 +18,8 @@ class UserTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        iconImageView.layer.cornerRadius = 16
-        iconImageView.layer.masksToBounds = true
+//        iconImageView.layer.cornerRadius = 16
+//        iconImageView.layer.masksToBounds = true
         
         labelContainerView.layer.cornerRadius = 8
         labelContainerView.layer.masksToBounds = true
@@ -36,7 +36,7 @@ class UserTableViewCell: UITableViewCell {
     
     func configure(with message: Message) {
         
-        iconImageView.image = UIImage(named: message.getImage())
+//        iconImageView.image = UIImage(named: message.getImage())
 
         messageLabel.text = message.text
         messageLabel.textColor = .chatBackgroundStart

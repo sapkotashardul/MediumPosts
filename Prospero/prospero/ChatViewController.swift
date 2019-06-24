@@ -35,10 +35,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     //speech syntehsizer
     var speechSynthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
-
-//    speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-
-//    speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
+    var speechPaused: Bool = false
 
     
     var isMenuHidden: Bool = false {
@@ -151,13 +148,17 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             make.top.equalTo(toolbar)
         }
         
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.stopVoiceSynthesizer(_:)))
+//
+//        self.view.addGestureRecognizer(tapGesture)
+
+        
         let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hide))
+        
+        gestureRecognizer.addTarget(self, action: #selector(self.stopVoiceSynthesizer(_:)))
+        
         self.view.addGestureRecognizer(gestureRecognizer)
         
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.stopVoiceSynthesizer(_:)))
-
-        self.view.addGestureRecognizer(tapGesture)
         
         //setup messages table view
         tableView.dataSource = self
@@ -193,7 +194,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             if speechSynthesizer.isPaused {
                 speechSynthesizer.continueSpeaking()
             }else {
-                speechSynthesizer.pauseSpeaking(at: AVSpeechBoundary.immediate)
+                speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
             }
     }
     }
@@ -215,12 +216,6 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         self.toolbar.setNeedsUpdateConstraints()
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        // User tapped on screen, do something
-        print("USER TAPPED TO SCREEN")
-        return false
     }
     
     // MARK: back button
