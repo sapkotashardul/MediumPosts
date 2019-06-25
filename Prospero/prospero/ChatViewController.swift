@@ -22,8 +22,11 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var textView: UITextView?
     var item0: ToolbarItem?
     var item1: ToolbarItem?
+    var item2: ToolbarItem?
+    var tempImage: UIImage?
     var toolbarBottomConstraint: NSLayoutConstraint?
     var constraint: NSLayoutConstraint?
+    let aiService: AIService = AIService()
     
     //Messages
     var tableView = UITableView()
@@ -91,6 +94,32 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         }
         
     }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,18 +153,38 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         textView.layer.cornerRadius = 10
         print("textView.frame.height")
         item0 = ToolbarItem(customView: textView)
+        containerView.addSubview(item0!)
         item0?.snp.makeConstraints {(make) -> Void in
             make.height.equalTo(40)
-            make.width.equalTo(310)
-//            make.left.equalTo(self.view.snp_right).offset(20)
-//            make.leftMargin.equalTo(10)
-//            make.left.equalTo(containerView.snp_left).offset(-10)
-//            make.width.equalTo(50)
+            make.width.equalTo(280)
+//            make.left.equalTo(containerView.snp.left).offset(40)
         }
-        item1 = ToolbarItem(title: "SEND", target: self, action: #selector(send))
+        
+//        textView.addTarget(self, action: #selector(textViewTouched), for: .touchDown)
+        
+        tempImage = self.resizeImage(image: UIImage(named: "microphone")!, targetSize: CGSize(width: 25, height: 50))
+        
+        item1 = ToolbarItem(image: tempImage!, target: self, action: #selector(microphone))
+        containerView.addSubview(item1!)
         item1!.tintColor = .mainGreen
+        item1?.snp.makeConstraints{(make) -> Void in
+//            make.bottom.equalTo(containerView.snp.bottom).offset(-8)
+            make.left.equalTo(containerView.snp.left).offset(-9)
+            make.right.equalTo(item0!.snp.left).offset(10)
+        }
         item1!.setEnabled(true, animated: false)
-        toolbar.setItems([item0!, item1!], animated: false)
+        
+
+        item2 = ToolbarItem(title: "SEND", target: self, action: #selector(send))
+        containerView.addSubview(item2!)
+        item2?.snp.makeConstraints{(make) -> Void in
+            make.right.equalTo(containerView.snp.right).offset(-5)
+        }
+        item2!.tintColor = .mainGreen
+        item2!.setEnabled(true, animated: false)
+        
+        
+        toolbar.setItems([item1!, item0!, item2!], animated: false)
         toolbar.backgroundColor = .black
         
         let toolbarWrapperView = UIView()
@@ -148,17 +197,14 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             make.top.equalTo(toolbar)
         }
         
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.stopVoiceSynthesizer(_:)))
-//
-//        self.view.addGestureRecognizer(tapGesture)
-
         
         let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hide))
         
         gestureRecognizer.addTarget(self, action: #selector(self.stopVoiceSynthesizer(_:)))
-        
+
+//        gestureRecognizer.addTarget(textView, action: #selector(textViewTouched(_:)))
+//
         self.view.addGestureRecognizer(gestureRecognizer)
-        
         
         //setup messages table view
         tableView.dataSource = self
@@ -197,6 +243,17 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
             }
     }
+    }
+    
+    @objc func textViewTouched(_ sender: UITapGestureRecognizer) {
+        print("myTargetFunction")
+    }
+
+    
+    @objc func microphone(){
+        toolbar.isHidden = true
+        print("Hiding toolbar")
+//        setToolbarHidden(true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -268,26 +325,23 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             
             //configure AI Request
             let aiRequest = AIRequest(query: textView!.text, lang: "en")
-            let aiService = AIService(aiRequest)
-            
+
             //Promise block
             firstly{
-                aiService.getAi()
-            }.then { (ai) -> Promise<Message> in
-                ai.intent.createMessage()
-            }.then {(message) -> Void in
-                self.sendMessage(message)
+                self.aiService.sendMessage(aiRequest: aiRequest)
+            }.then { (message) -> Void in
+                self.sendMessage(self.aiService.msg!)
                 
                 let utterance = AVSpeechUtterance(string: message.text)
                 
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                 
                 self.speechSynthesizer.speak(utterance)
-
-            }.catch { (error) in
+            }.catch{ (error) in
                 //oh noes error
             }
-            
+
+
             //user message
             let message = Message(text: self.textView!.text!, date: Date(), type: .user)
             self.sendMessage(message)
@@ -351,7 +405,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 
             utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
 
-            self.speechSynthesizer.speak(utterance)
+//            self.speechSynthesizer.speak(utterance)
             
             let message = Message(text: text, date: Date(), type: .botText)
             messages.append(message)

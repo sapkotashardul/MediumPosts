@@ -37,11 +37,11 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJz-uV-Q4q">
-                        <rect key="frame" x="123.5" y="33" width="32" height="12"/>
+                        <rect key="frame" x="124.5" y="34" width="32" height="11"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="32" id="cNZ-0X-gFU"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
                         <color key="textColor" red="0.68627450980392157" green="0.56862745098039214" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -54,7 +54,7 @@
                     <constraint firstAttribute="bottomMargin" secondItem="JJz-uV-Q4q" secondAttribute="bottom" constant="1" id="apG-vq-rNn"/>
                     <constraint firstAttribute="bottomMargin" secondItem="JJz-uV-Q4q" secondAttribute="bottom" id="hUd-Cg-swQ"/>
                     <constraint firstAttribute="trailing" secondItem="jUr-b9-i8g" secondAttribute="trailing" constant="12" id="laU-DP-Ijh"/>
-                    <constraint firstItem="jUr-b9-i8g" firstAttribute="leading" secondItem="JJz-uV-Q4q" secondAttribute="trailing" constant="10" id="vM6-XP-e2f"/>
+                    <constraint firstItem="jUr-b9-i8g" firstAttribute="leading" secondItem="JJz-uV-Q4q" secondAttribute="trailing" constant="9" id="vM6-XP-e2f"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -9,7 +9,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-weatherBot.xcscheme</key>
+		<key>ApiAI.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-prospero.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -152,7 +152,7 @@ public class Toolbar: UIView {
         super.didMoveToWindow()
         if #available(iOS 11.0, *) {
             if let window = self.window {
-                let constraint: NSLayoutConstraint = self.stackView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: window.safeAreaLayoutGuide.bottomAnchor, multiplier: 1)
+                let constraint: NSLayoutConstraint = self.stackView.bottomAnchor.constraintLessThanOrEqualToSystemSpacingBelow(window.safeAreaLayoutGuide.bottomAnchor, multiplier: 1)
                 constraint.constant = -padding.bottom
                 constraint.priority = UILayoutPriority(rawValue: 750)
                 constraint.isActive = true

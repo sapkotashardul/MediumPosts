@@ -9,45 +9,59 @@
 import UIKit
 import Alamofire
 import PromiseKit
+import ApiAI
+import AVFoundation
 
 class AIService {
     
-    let aiUrl = URLGenerator.aiApiUrlForPathString(path: "query?v=20150910")
-    var aiRequest: AIRequest
-    
-    init(_ aiRequest: AIRequest) {
-        self.aiRequest = aiRequest
+//    let aiUrl = URLGenerator.aiApiUrlForPathString(path: "query?v=20150910")
+    var aiRequest: AIRequest?
+    var headers: HTTPHeaders?
+    var chatVC : ChatViewController?
+    var speechSynthesizer: AVSpeechSynthesizer?
+    var speechUtterance: AVSpeechUtterance?
+    var msg: Message?
+
+//    var speechSynthesizer = AVSpeechSynthesizer()
+//    var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
+
+    init(){
+        let configuration = AIDefaultConfiguration()
+        let apiai = ApiAI.shared()
+        configuration.clientAccessToken = "8c253081ae5e4dfe88c2074b8ff51d4c"
+        apiai?.configuration = configuration
+        speechSynthesizer = AVSpeechSynthesizer()
     }
     
-    func getAi() -> Promise<AI> {
+//    init(_ aiRequest: AIRequest) {
+//        self.aiRequest = aiRequest
+//        self.headers = aiRequest.getHeaders()
+//    }
+    
+    func sendMessage(aiRequest: AIRequest)-> Promise<Message> {
+        let request = ApiAI.shared().textRequest()
         
-        let parameters = aiRequest.toParameters()
-        let headers = aiRequest.getHeaders()
+        request?.query = aiRequest.query
         
         return Promise { fulfill, reject in
-            
-            Alamofire.request(aiUrl, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON { response in
-                    switch response.result {
-                    case .success(let json):
-                        var ai: AI? = nil
-                        if let aiManagerDictionary = json as? NSDictionary {
-                            let aiManager = AIManager(aiDictionary: aiManagerDictionary)
-                            ai = aiManager.serialize()
-                        }
-                        
-                        if ai != nil {
-                            fulfill(ai!)
-                        } else {
-                            reject(WeatherBotError.aiManagerDictionary)
-                        }
-                        
-                    case .failure(let error):
-                        reject(error)
-                    }
+        
+        request?.setMappedCompletionBlockSuccess({ (request, response) in
+            let response = response as! AIResponse
+            if let textResponse = response.result.fulfillment.speech {
+            self.msg = Message(text: textResponse, date: Date(), type: .botText)
+                fulfill(self.msg!)
             }
+        }, failure: { (request, error) in
+            print(error!)
+            self.msg = Message(text: "No message found", date: Date(), type: .botText)
+            reject(error!)
+        })
+            
+        ApiAI.shared().enqueue(request)
+            
         }
         
     }
+    
     
 }
