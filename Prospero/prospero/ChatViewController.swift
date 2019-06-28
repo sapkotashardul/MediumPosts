@@ -31,6 +31,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     let voiceOverlayController = VoiceOverlayController()
     
     var recordingFinished:Bool = false
+    var tappedRecordingButton:Bool = false
     
     //Messages
     var tableView = UITableView()
@@ -164,8 +165,6 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 //            make.left.equalTo(containerView.snp.left).offset(40)
         }
         
-//        textView.addTarget(self, action: #selector(textViewTouched), for: .touchDown)
-        
         tempImage = self.resizeImage(image: UIImage(named: "microphone")!, targetSize: CGSize(width: 25, height: 50))
         
         item1 = ToolbarItem(image: tempImage!, target: self, action: #selector(microphone))
@@ -261,15 +260,14 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     }
     }
     
-    @objc func textViewTouched(_ sender: UITapGestureRecognizer) {
-        print("myTargetFunction")
-    }
+//    @objc func textViewTouched(_ sender: UITapGestureRecognizer) {
+//        self.tappedRecordingButton = false
+//    }
 
     @objc func microphone(){
 
-//        DispatchQueue.main.async {
-//        DispatchQueue.global(qos: .background).async{
-          self.voiceOverlayController.start(on: self, textHandler: { (text, final, extraInfo) in
+        self.tappedRecordingButton = true
+        self.voiceOverlayController.start(on: self, textHandler: { (text, final, extraInfo) in
             print("voice output: \(String(describing: text))")
             self.textView!.text = text
         }, errorHandler: { (error) in
@@ -283,11 +281,11 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         }
         
         DispatchQueue.main.async {
-            print("THIS IS IT")
             self.send()
             self.recordingFinished = false
         }
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -369,9 +367,17 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 let utterance = AVSpeechUtterance(string: message.text)
                 
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                
                 self.speechSynthesizer.speak(utterance)
-            }.catch{ (error) in
+            
+                let textCountLength = message.text.count / 16
+                
+                let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(textCountLength), repeats: false) { (timer) in
+                    // do stuff 42 seconds later
+                    if self.tappedRecordingButton {                     self.microphone()
+                    }
+                }
+
+                }.catch{ (error) in
                 //oh noes error
             }
 
@@ -410,6 +416,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         self.constraint = textView.heightAnchor.constraint(equalToConstant: size.height)
         self.constraint?.priority = UILayoutPriority.defaultHigh
         self.constraint?.isActive = true
+        self.tappedRecordingButton = false
     }
 
     final func moveToolbar(up: Bool, notification: Notification) {
