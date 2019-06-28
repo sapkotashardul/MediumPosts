@@ -53,6 +53,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need the mic for audio to text</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Need the speech recognition capabilities</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

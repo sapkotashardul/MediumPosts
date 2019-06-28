@@ -406,6 +406,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-prospero/Pods-prospero-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/ApiAI/ApiAI.framework",
+				"${BUILT_PRODUCTS_DIR}/InstantSearchVoiceOverlay/InstantSearchVoiceOverlay.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/ReverseExtension/ReverseExtension.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -415,6 +416,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ApiAI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchVoiceOverlay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReverseExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -623,6 +625,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "prospero/prospero-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "prospero/prospero-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Debug;
 		};
@@ -647,6 +650,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "prospero/prospero-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "prospero/prospero-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
 			name = Release;
 		};

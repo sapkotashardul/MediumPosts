@@ -18,4 +18,5 @@ target 'prospero' do
     pod 'PromiseKit/CoreLocation'
     pod 'PromiseKit/MapKit'
     pod 'ApiAI'
+    pod 'InstantSearchVoiceOverlay', '~> 1.0.0-beta'
 end

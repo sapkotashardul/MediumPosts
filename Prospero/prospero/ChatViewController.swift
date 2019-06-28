@@ -13,8 +13,9 @@ import ReverseExtension
 import Alamofire
 import PromiseKit
 import AVFoundation
+import InstantSearchVoiceOverlay
 
-class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate  {
+class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate{
     
     //tool bar
     let containerView = UIView()
@@ -27,6 +28,9 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var toolbarBottomConstraint: NSLayoutConstraint?
     var constraint: NSLayoutConstraint?
     let aiService: AIService = AIService()
+    let voiceOverlayController = VoiceOverlayController()
+    
+    var recordingFinished:Bool = false
     
     //Messages
     var tableView = UITableView()
@@ -39,7 +43,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var speechSynthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
     var speechPaused: Bool = false
-
+    var userFinishedSpeaking: Bool = false
     
     var isMenuHidden: Bool = false {
         didSet {
@@ -123,8 +127,8 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+//        var inputViewController = voiceOverlayController.inputViewController()
+        self.recordingFinished = voiceOverlayController.inputViewController?.recordingFinished ?? false
         //add back button
         let backButton = UIButton()
         backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
@@ -165,6 +169,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         tempImage = self.resizeImage(image: UIImage(named: "microphone")!, targetSize: CGSize(width: 25, height: 50))
         
         item1 = ToolbarItem(image: tempImage!, target: self, action: #selector(microphone))
+        
         containerView.addSubview(item1!)
         item1!.tintColor = .mainGreen
         item1?.snp.makeConstraints{(make) -> Void in
@@ -231,6 +236,17 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         //send welcome message
         sendWelcomeMessage()
         
+        voiceOverlayController.settings.autoStop = true
+        voiceOverlayController.settings.autoStopTimeout = 2
+    voiceOverlayController.settings.layout.permissionScreen.title = "Welcome to Prospero!"
+    
+    voiceOverlayController.settings.layout.inputScreen.subtitleInitial = "Say something"
+    voiceOverlayController.settings.layout.inputScreen.subtitleBullet = ""
+    voiceOverlayController.settings.layout.inputScreen.subtitleBulletList = []
+
+    voiceOverlayController.settings.layout.inputScreen.titleInProgress = ""
+        
+        
     }
     
     @objc func stopVoiceSynthesizer(_ sender: UITapGestureRecognizer) {
@@ -249,11 +265,29 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         print("myTargetFunction")
     }
 
-    
     @objc func microphone(){
-        toolbar.isHidden = true
-        print("Hiding toolbar")
-//        setToolbarHidden(true, animated: false)
+
+//        DispatchQueue.main.async {
+//        DispatchQueue.global(qos: .background).async{
+          self.voiceOverlayController.start(on: self, textHandler: { (text, final, extraInfo) in
+            print("voice output: \(String(describing: text))")
+            self.textView!.text = text
+        }, errorHandler: { (error) in
+            print("voice output: error \(String(describing: error))")
+        })
+        
+
+        DispatchQueue.global(qos: .userInitiated).async{
+        while(!self.recordingFinished){
+            self.recordingFinished = (self.voiceOverlayController.inputViewController?.recordingFinished ?? false)
+        }
+        
+        DispatchQueue.main.async {
+            print("THIS IS IT")
+            self.send()
+            self.recordingFinished = false
+        }
+        }
     }
 
     override func didReceiveMemoryWarning() {
