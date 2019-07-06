@@ -30,13 +30,17 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     let aiService: AIService = AIService()
     let voiceOverlayController = VoiceOverlayController()
     
+//    var backButton: UIButton = UIButton()
+
+    var backButton: UIButton?
+    
     var recordingFinished:Bool = false
     var tappedRecordingButton:Bool = false
     
     //Messages
     var tableView = UITableView()
-    var messages = [Message]()
-    
+    var messages: [Message]?
+
     var empaticaVC = EmpaticaViewController()
     private var devices: [EmpaticaDeviceManager] = []
     
@@ -45,6 +49,13 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
     var speechPaused: Bool = false
     var userFinishedSpeaking: Bool = false
+    
+    
+//    var backButton.background : String = "Accelerometer" {
+//        didSet {
+//            detailLabel.text = sensor
+//        }
+//    }
     
     var isMenuHidden: Bool = false {
         didSet {
@@ -128,25 +139,70 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        var inputViewController = voiceOverlayController.inputViewController()
-        self.recordingFinished = voiceOverlayController.inputViewController?.recordingFinished ?? false
-        //add back button
-        let backButton = UIButton()
-        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
 
-        backButton.clipsToBounds = true
-        backButton.layer.cornerRadius = 25
-        backButton.setImage(UIImage(named: "icon_close"), for: .normal)
-        backButton.addTarget(self, action: #selector(backHome), for: .touchUpInside)
-        containerView.addSubview(backButton)
-        backButton.snp.makeConstraints { (make) -> Void in
+        self.recordingFinished = voiceOverlayController.inputViewController?.recordingFinished ?? false
+        
+//        if (!self.homeViewMessages.isEmpty){
+//        self.messages = self.homeViewMessages
+//            print("HERHERHERHER")
+//            print(self.messages)
+//        }
+        
+        //add back button
+//        self.backButton = UIButton()
+//        if let backButton = backButton{
+//            print("COLOROR", backButton.backgroundColor)
+//        }else{
+//          self.backButton = UIButton()
+//            print("HERHERHERHERHERH")
+//            if empaticaVC.empaticaStatus{
+//                backButton!.backgroundColor = UIColor.green.withAlphaComponent(0.7)
+//            } else{
+//                backButton!.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+//
+//            }
+//        }
+        
+//        var backButton.backgroundColor: UIColor = {
+//            didSet{
+//                backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+//            }
+//        }
+        
+        if let backButton = backButton{
+            self.backButton?.backgroundColor = backButton.backgroundColor
+        } else {
+            self.backButton = UIButton()
+        }
+
+        backButton!.clipsToBounds = true
+        backButton!.layer.cornerRadius = 25
+        backButton!.setImage(UIImage(named: "icon_close"), for: .normal)
+        backButton!.addTarget(self, action: #selector(backHome), for: .touchUpInside)
+        containerView.addSubview(backButton!)
+        backButton!.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(containerView.snp.top).offset(15)
             make.height.equalTo(50)
             make.width.equalTo(50)
             make.centerX.equalTo(containerView)
         }
         
-        empaticaVC.initEmpatica(backButton: backButton)
+        empaticaVC.initEmpatica(backButton: backButton!)
+        
+        
+//        backButton.clipsToBounds = true
+//        backButton.layer.cornerRadius = 25
+//        backButton.setImage(UIImage(named: "icon_close"), for: .normal)
+//        backButton.addTarget(self, action: #selector(backHome), for: .touchUpInside)
+//        containerView.addSubview(backButton)
+//        backButton.snp.makeConstraints { (make) -> Void in
+//            make.top.equalTo(containerView.snp.top).offset(15)
+//            make.height.equalTo(50)
+//            make.width.equalTo(50)
+//            make.centerX.equalTo(containerView)
+//        }
+//
+//        empaticaVC.initEmpatica(backButton: backButton)
         
         //setup tool bar
         let textView: UITextView = UITextView(frame: .zero)
@@ -231,9 +287,9 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         tableView.re.scrollViewDidReachBottom = { scrollView in
             print("scrollViewDidReachBottom")
         }
+
+        self.tableView.reloadData()
         
-        //send welcome message
-        sendWelcomeMessage()
         
         voiceOverlayController.settings.autoStop = true
         voiceOverlayController.settings.autoStopTimeout = 2
@@ -309,17 +365,44 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     // MARK: back button
     @objc func backHome() {
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let destinationVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        
+//        do {
+        guard let destinationVC = self.presentingViewController as? HomeViewController
+            else {
+                var destinationVC = HomeViewController()
+                destinationVC.messages = self.messages!
+                self.dismiss(animated: true, completion: nil)
+                return
+//                destinationVC.messages = self.messages!
+            }
+        destinationVC.messages = self.messages!
+//    }
+//            destinationVC.messages = self.messages!
+//         catch{
+//            var homeVC = HomeViewController()
+//            homeVC.messages = self.messages!
+//        }
+ 
+//        print("DESTINATION VC ", destinationVC.messages)
         self.dismiss(animated: true, completion: nil)
     }
     
     // MARK:- tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        do { return messages!.count
+        } catch{
+            messages = [Message]()
+            return messages!.count
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let message = messages[messages.count - (indexPath.row + 1)]
+        let message = messages![messages!.count - (indexPath.row + 1)]
         
         switch message.type {
         case .user:
@@ -369,6 +452,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                 self.speechSynthesizer.speak(utterance)
             
+               // reduce everything to 1/16 th of the entire text count 
                 let textCountLength = message.text.count / 16
                 
                 let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(textCountLength), repeats: false) { (timer) in
@@ -398,9 +482,10 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     // MARK:- send message
     func sendMessage(_ message: Message) {
-        messages.append(message)
+        messages!.append(message)
+//        self.homeViewMessages = messages
         tableView.beginUpdates()
-        tableView.re.insertRows(at: [IndexPath(row: messages.count - 1, section: 0)], with: .automatic)
+        tableView.re.insertRows(at: [IndexPath(row: messages!.count - 1, section: 0)], with: .automatic)
         tableView.endUpdates()
     }
     
@@ -449,7 +534,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 //            self.speechSynthesizer.speak(utterance)
             
             let message = Message(text: text, date: Date(), type: .botText)
-            messages.append(message)
+            messages!.append(message)
         }
     }
 }

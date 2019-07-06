@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		307A0070286A88534FC85D1F /* Pods_prospero.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA63ACA714F7A3B4CC3D64E /* Pods_prospero.framework */; };
+		E8A32A6122C88137005E5A14 /* prospero.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E8A32A5F22C88137005E5A14 /* prospero.xcdatamodeld */; };
 		E8F01AEE22B8502E0078D320 /* EmpaticaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F01AED22B8502E0078D320 /* EmpaticaViewController.swift */; };
 		E8F01B0822B9E9A70078D320 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F01B0722B9E9A60078D320 /* CoreBluetooth.framework */; };
 		E8F01B0A22BA2E010078D320 /* E4link.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F01B0122B9C5C40078D320 /* E4link.framework */; };
@@ -59,6 +60,7 @@
 		9AD9EC896D41F7B282B17FAC /* Pods-weatherBot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-weatherBot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-weatherBot/Pods-weatherBot.debug.xcconfig"; sourceTree = "<group>"; };
 		C10975633BEE4A16A4E48094 /* Pods-weatherBot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-weatherBot.release.xcconfig"; path = "Pods/Target Support Files/Pods-weatherBot/Pods-weatherBot.release.xcconfig"; sourceTree = "<group>"; };
 		CC530725F02EB78414B7DF18 /* Pods-prospero.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospero.debug.xcconfig"; path = "Pods/Target Support Files/Pods-prospero/Pods-prospero.debug.xcconfig"; sourceTree = "<group>"; };
+		E8A32A6022C88137005E5A14 /* prospero.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = prospero.xcdatamodel; sourceTree = "<group>"; };
 		E8F01AED22B8502E0078D320 /* EmpaticaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmpaticaViewController.swift; sourceTree = "<group>"; };
 		E8F01B0122B9C5C40078D320 /* E4link.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = E4link.framework; path = "../../e4link-sample-project-ios/Libs/E4link.framework"; sourceTree = "<group>"; };
 		E8F01B0322B9C7B90078D320 /* prospero-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "prospero-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -144,13 +146,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E8F01B0922B9EAA90078D320 /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Libs;
-			sourceTree = "<group>";
-		};
 		F547EDAD1F5DFCBC00C69401 /* Weather API */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				E8F01B6222BA353F0078D320 /* Assets.xcassets */,
-				E8F01B0922B9EAA90078D320 /* Libs */,
 				F5CFD56D1ED70BCF00A01967 /* prospero */,
 				F5CFD56C1ED70BCF00A01967 /* Products */,
 				5DCD6B34B7C4057C573595AA /* Pods */,
@@ -253,6 +247,7 @@
 				F5F2BC581F1EF94300203D4A /* Models */,
 				F5FFFBDF1F1B98CC00C24628 /* UI */,
 				F5CFD57A1ED70BCF00A01967 /* Info.plist */,
+				E8A32A5F22C88137005E5A14 /* prospero.xcdatamodeld */,
 			);
 			path = prospero;
 			sourceTree = "<group>";
@@ -442,6 +437,7 @@
 				F502EEF52009A94D001A78E6 /* AddressIntent.swift in Sources */,
 				E8F01AEE22B8502E0078D320 /* EmpaticaViewController.swift in Sources */,
 				F5495B1D1FF5B7F7000DAEEC /* HomeViewController.swift in Sources */,
+				E8A32A6122C88137005E5A14 /* prospero.xcdatamodeld in Sources */,
 				F547EDC41F5E3EAD00C69401 /* Geocoding.swift in Sources */,
 				F5FFFBDC1F1A80F200C24628 /* Colors.swift in Sources */,
 				F551CCAE1F219A390072ACDD /* AIService.swift in Sources */,
@@ -676,6 +672,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E8A32A5F22C88137005E5A14 /* prospero.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E8A32A6022C88137005E5A14 /* prospero.xcdatamodel */,
+			);
+			currentVersion = E8A32A6022C88137005E5A14 /* prospero.xcdatamodel */;
+			path = prospero.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F5CFD5631ED70BCF00A01967 /* Project object */;
 }

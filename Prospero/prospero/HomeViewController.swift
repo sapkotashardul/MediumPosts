@@ -7,7 +7,10 @@
 //
 
 import UIKit
+import Toolbar
+import SnapKit
 import PromiseKit
+import AVFoundation
 
 class HomeViewController: UIViewController, UIViewControllerTransitioningDelegate {
     
@@ -21,6 +24,13 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
     @IBOutlet weak var wrapperView: UIView!
     @IBOutlet weak var iconButtonImageView: UIImageView!
     @IBOutlet weak var temperatureView: UIView!
+    
+    var empaticaVC = EmpaticaViewController()
+    var backButton: UIButton = UIButton()
+    
+    var messages = [Message]()
+    
+    var empaticaStatus: Bool = false
     
     let transition = CircularTransition()
     
@@ -51,17 +61,26 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
         menuButton.layer.shadowOffset = CGSize.zero
         menuButton.layer.shadowRadius = 3
         wrapperView.layer.cornerRadius = wrapperView.frame.size.width / 2
+    
         
         //hide elements
         cityNameLabel.alpha = 0
         dateLabel.alpha = 0
         iconWeatherImageView.alpha = 0
-        temperatureView.alpha = 0
+        
+        self.backButton = UIButton()
+        backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let secondVC = segue.destination as! ChatViewController
+
+        empaticaVC.initEmpatica(backButton: self.backButton)
+        secondVC.backButton = self.backButton
+
         secondVC.transitioningDelegate = self
+        secondVC.messages = self.messages
         secondVC.modalPresentationStyle = .custom
     }
     
@@ -102,7 +121,9 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
             dateFormatterHeader.setLocalizedDateFormatFromTemplate("MMMM dd yyyy")
             self.dateLabel.text = dateFormatterHeader.string(from: Date())
             self.iconWeatherImageView.image = weather.condition.weatherIcon.image
-            self.temperatureLabel.text = Int(weather.condition.temp).description
+            self.temperatureLabel.text = "Prospero"
+
+//            self.temperatureLabel.text = Int(weather.condition.temp).description
             self.unitLabel.text = weather.unit!.temperature
             self.statusLabel.text = weather.condition.text.uppercased()
             

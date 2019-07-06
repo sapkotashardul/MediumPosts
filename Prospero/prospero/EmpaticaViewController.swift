@@ -12,12 +12,14 @@
 //
 
 import UIKit
-//import <E4link/E4link.h>
+import CoreData
 
 class EmpaticaViewController: UIViewController {
     
     
     static let EMPATICA_API_KEY = "62e322cb9dac410e9041afc08d977669"
+    var empaticaStatus: Bool = false
+//    var homeVC : HomeViewController = HomeViewController()
     
     
     private var devices: [EmpaticaDeviceManager] = []
@@ -39,6 +41,30 @@ class EmpaticaViewController: UIViewController {
 //        initEmpatica()
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        //1
+//        guard let appDelegate =
+//            UIApplication.shared.delegate as? AppDelegate else {
+//                return
+//        }
+//
+//        let managedContext =
+//            appDelegate.persistentContainer.viewContext
+//
+//        //2
+//        let fetchRequest =
+//            NSFetchRequest<NSManagedObject>(entityName: "EmpaticaStatus")
+//
+//        //3
+//        do {
+//            empaticaStatus = try managedContext.fetch(fetchRequest) as! [EmpaticaStatus]
+//        } catch let error as NSError {
+//            print("Could not fetch. \(error), \(error.userInfo)")
+//        }
+//    }
+//
     
     
     func get_devices() -> [EmpaticaDeviceManager]{
@@ -187,8 +213,6 @@ extension EmpaticaViewController: EmpaticaDelegate {
                     EmpaticaAPI.discoverDevices(with: self)
                 }
                 
-            
-
             }
         }
     }
@@ -235,6 +259,33 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 //        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }
     
+//    func saveDeviceStatus(connected: Bool){
+//        guard let appDelegate =
+//            UIApplication.shared.delegate as? AppDelegate else {
+//                return
+//        }
+//
+//        let managedContext =
+//            appDelegate.persistentContainer.viewContext
+//
+//        let entity =
+//            NSEntityDescription.entity(forEntityName: "EmpaticaStatus",
+//                                       in: managedContext)!
+//
+//        self.empaticaStatus = EmpaticaStatus(entity: entity,
+//                               insertInto: managedContext)
+//
+//        self.empaticaStatus?.empaticaStatus = connected
+//
+//        do {
+//            try managedContext.save()
+//
+//        } catch let error as NSError {
+//            print("Could not save. \(error), \(error.userInfo)")
+//        }
+//    }
+//
+    
     func didUpdate( _ status: DeviceStatus, forDevice device: EmpaticaDeviceManager!) {
         
 
@@ -245,7 +296,8 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             print("[didUpdate] Disconnected \(device.serialNumber!).")
             
             backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-
+            empaticaStatus = false
+//            saveDeviceStatus(false)
             self.restartDiscovery()
             
             break
@@ -258,6 +310,8 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         case kDeviceStatusConnected:
             
             print("[didUpdate] Connected \(device.serialNumber!).")
+//            saveDeviceStatus(true)
+            empaticaStatus = true
             backButton.backgroundColor = UIColor.green.withAlphaComponent(0.7)
             break
             

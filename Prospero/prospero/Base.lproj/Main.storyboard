@@ -12,7 +12,7 @@
         <!--Chat View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ChatViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ChatViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -30,7 +30,7 @@
         <!--Home View Controller-->
         <scene sceneID="Pw8-Ib-UH0">
             <objects>
-                <viewController id="C2J-Fo-Wfe" customClass="HomeViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="C2J-Fo-Wfe" customClass="HomeViewController" customModule="prospero" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Afd-Qg-yQX"/>
                         <viewControllerLayoutGuide type="bottom" id="5VZ-GV-bvW"/>
@@ -103,43 +103,18 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jic-q8-Xj5">
                                 <rect key="frame" x="50" y="351" width="275" height="110"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PARTLTY SUNNY" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hpy-PD-8it">
-                                        <rect key="frame" x="205" y="60" width="70" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="U1o-zD-nv8"/>
-                                            <constraint firstAttribute="width" constant="70" id="aHK-dq-zRc"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                        <color key="textColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qLm-ld-3Td">
-                                        <rect key="frame" x="204" y="0.0" width="71" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="71" id="SvG-Jf-BrE"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                        <color key="textColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="68" translatesAutoresizingMaskIntoConstraints="NO" id="9sG-ts-5zX">
-                                        <rect key="frame" x="0.0" y="0.0" width="194" height="110"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="140"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Welcome to Prospero!" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="68" translatesAutoresizingMaskIntoConstraints="NO" id="9sG-ts-5zX">
+                                        <rect key="frame" x="19" y="0.0" width="256" height="110"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
                                         <color key="textColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="9sG-ts-5zX" firstAttribute="top" secondItem="jic-q8-Xj5" secondAttribute="top" id="6Sc-Lc-4go"/>
-                                    <constraint firstItem="qLm-ld-3Td" firstAttribute="top" secondItem="jic-q8-Xj5" secondAttribute="top" id="9If-ND-dJg"/>
-                                    <constraint firstAttribute="bottom" secondItem="hpy-PD-8it" secondAttribute="bottom" id="Oe9-WC-vEI"/>
+                                    <constraint firstAttribute="bottom" secondItem="9sG-ts-5zX" secondAttribute="bottom" id="DHS-qH-MeH"/>
+                                    <constraint firstItem="9sG-ts-5zX" firstAttribute="top" secondItem="jic-q8-Xj5" secondAttribute="top" id="HeM-kc-515"/>
                                     <constraint firstAttribute="height" constant="110" id="P9K-qz-KEc"/>
-                                    <constraint firstItem="qLm-ld-3Td" firstAttribute="leading" secondItem="9sG-ts-5zX" secondAttribute="trailing" constant="10" id="XGk-Dl-dSm"/>
-                                    <constraint firstAttribute="bottom" secondItem="9sG-ts-5zX" secondAttribute="bottom" id="ZgI-RF-VX6"/>
-                                    <constraint firstItem="9sG-ts-5zX" firstAttribute="leading" secondItem="jic-q8-Xj5" secondAttribute="leading" id="fz0-3X-5UO"/>
-                                    <constraint firstAttribute="trailing" secondItem="hpy-PD-8it" secondAttribute="trailing" id="h7c-8H-i8f"/>
-                                    <constraint firstAttribute="trailing" secondItem="qLm-ld-3Td" secondAttribute="trailing" id="xei-a0-cAp"/>
-                                    <constraint firstItem="hpy-PD-8it" firstAttribute="bottom" secondItem="qLm-ld-3Td" secondAttribute="bottom" constant="70" id="ydO-tk-2DV"/>
+                                    <constraint firstItem="9sG-ts-5zX" firstAttribute="leading" secondItem="jic-q8-Xj5" secondAttribute="leading" constant="19" id="xRJ-50-xtk"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -168,10 +143,8 @@
                         <outlet property="iconButtonImageView" destination="5hY-Ku-Zkn" id="IFQ-ct-KdF"/>
                         <outlet property="iconWeatherImageView" destination="13r-Jr-ruH" id="F0g-KG-1Ga"/>
                         <outlet property="menuButton" destination="cWY-sF-8Pf" id="uOj-lL-zNz"/>
-                        <outlet property="statusLabel" destination="hpy-PD-8it" id="s9v-bq-sRw"/>
                         <outlet property="temperatureLabel" destination="9sG-ts-5zX" id="kbd-16-m1j"/>
                         <outlet property="temperatureView" destination="jic-q8-Xj5" id="TYE-hx-FkJ"/>
-                        <outlet property="unitLabel" destination="qLm-ld-3Td" id="PGX-sd-KOr"/>
                         <outlet property="wrapperView" destination="Alt-lP-8GK" id="Mua-ub-BfH"/>
                     </connections>
                 </viewController>
