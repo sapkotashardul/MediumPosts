@@ -11,8 +11,9 @@ import Toolbar
 import SnapKit
 import PromiseKit
 import AVFoundation
+import MessageUI
 
-class HomeViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class HomeViewController: UIViewController, UIViewControllerTransitioningDelegate, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -65,13 +66,87 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
         
         //hide elements
         cityNameLabel.alpha = 0
-        dateLabel.alpha = 0
+//        dateLabel.alpha = 0
         iconWeatherImageView.alpha = 0
         
         self.backButton = UIButton()
         backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         
+        let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(export))
+        
+        self.dateLabel.addGestureRecognizer(gestureRecognizer)
+        self.dateLabel.isUserInteractionEnabled = true
+
+        
     }
+    
+    @objc func export(){
+        
+        let emailAlertController = UIAlertController(
+            title: "Export files to your email",
+            message: "Please enter your email below",
+            preferredStyle: UIAlertController.Style.alert)
+        
+        let sendEmail = UIAlertAction(title: "Send",
+                                      style: .default) {
+                                        [unowned self] action in
+                                        
+                                        guard let textField = emailAlertController.textFields?.first
+                                            else {return}
+                                        
+                                        
+                                        let email = textField.text as! String
+                                        
+                                        print("Sending email to", email)
+                                        
+                                        do{//Check to see the device can send email.
+                                            if(try MFMailComposeViewController.canSendMail()) {
+                                                print("Can send email.")
+                                                
+                                                let mail = MFMailComposeViewController()
+                                                mail.mailComposeDelegate = self
+                                                
+                                                //Set the subject and message of the email
+                                                    mail.setSubject("Message Log")
+                                                    mail.setMessageBody("Attached", isHTML: false)
+                                            
+                                                mail.setToRecipients([email])
+                                                
+                                                for fileName in  ["messages", "acc", "gsr", "ibi"] {
+                                                    // hr and IBI not working
+                                                    let fileManager = FileManager.default
+                                                    let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create: true)
+                                                    let fileURL = documentDirectory.appendingPathComponent(fileName).appendingPathExtension("txt")
+                                                    print("File Path: \(fileURL.path)")
+                                                    let fileData = NSData(contentsOfFile: fileURL.path)
+                                                    print("File data loaded.")
+                                                    // TO DO {do catch} inside attachment
+                                                mail.addAttachmentData(fileData! as Data, mimeType: "text/txt", fileName: fileName + ".txt")
+                                                }
+                                                self.present(mail, animated: true, completion: nil)
+                                            }
+                                        } catch {
+                                            
+                                        }
+        }
+        
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        emailAlertController.addTextField()
+        emailAlertController.textFields?.first?.text = "sapkota@mit.edu"
+        emailAlertController.addAction(sendEmail)
+        emailAlertController.addAction(cancelAction)
+        
+        self.present(emailAlertController, animated: true, completion: nil)
+
+        
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let secondVC = segue.destination as! ChatViewController

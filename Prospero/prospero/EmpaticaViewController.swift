@@ -172,6 +172,19 @@ class EmpaticaViewController: UIViewController {
         }
     }
     
+    func createTimeStamp() -> String{
+        let now = Date()
+        
+        let formatter = DateFormatter()
+        
+        formatter.timeZone = TimeZone.current
+        
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        let dateString = formatter.string(from: now)
+        return dateString
+    }
+    
     private func restartDiscovery() {
         
         print("restartDiscovery")
@@ -235,16 +248,71 @@ extension EmpaticaViewController: EmpaticaDelegate {
     }
 }
 
+
 extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
+    func saveToFile(fileName: String, stringToWrite: String){
+        let fileManager = FileManager.default
+        do {
+            let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create: true)
+            let fileURL = documentDirectory.appendingPathComponent(fileName).appendingPathExtension("txt")
+            print("File Path: \(fileURL.path)")
+            print("WRITING TO FILE")
+            //            let stringToWrite = stringToWrite.joined(separator: "\n")
+            
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                print("FILE NAME ALREADY EXISTS")
+                var err:NSError?
+                do{
+                    let fileHandle = try FileHandle(forWritingTo: fileURL)
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(Data(stringToWrite.utf8))
+                    fileHandle.closeFile()
+                    
+                    
+                } catch{
+                    print("Can't open fileHandle \(err)")
+                }
+            } else {
+                try stringToWrite.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+            }
+            
+        } catch {
+            print(error)
+        }
+        
+    }
     func didReceiveTemperature(_ temp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-        print("\(device.serialNumber!) TEMP { \(temp) }")
+        print("\(device.serialNumber!) { \(timestamp) }, TEMP { \(temp) }")
     }
+
+    func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        
+        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
+        
+        print(stringToWrite)
+        self.saveToFile(fileName: "ibi", stringToWrite: stringToWrite)
+        
+    }
+    
+//    func didReceiveHR(_ hr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+//        
+//        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  HR { \(hr) }\n"
+//        
+//        print(stringToWrite)
+//        self.saveToFile(fileName: "hr", stringToWrite: stringToWrite)
+//        
+//    }
+//    
     
     func didReceiveAccelerationX(_ x: Int8, y: Int8, z: Int8, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-        print("\(device.serialNumber!) ACC > {x: \(x), y: \(y), z: \(z)}")
+        var stringToWrite = "\(device.serialNumber!), { \(timestamp) }, ACC > {x: \(x), y: \(y), z: \(z)}\n"
+        
+        print(stringToWrite)
+        
+        self.saveToFile(fileName: "acc", stringToWrite: stringToWrite)
     }
     
     func didReceiveTag(atTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
@@ -254,10 +322,16 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
     func didReceiveGSR(_ gsr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-        print("\(device.serialNumber!) GSR { \(abs(gsr)) }")
+        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  GSR { \(abs(gsr)) }\n"
         
+        print(stringToWrite)
+        
+        self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
+
 //        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }
+ 
+    
     
 //    func saveDeviceStatus(connected: Bool){
 //        guard let appDelegate =

@@ -50,6 +50,8 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var speechPaused: Bool = false
     var userFinishedSpeaking: Bool = false
     
+    var stringToWrite: String?
+    
     
 //    var backButton.background : String = "Accelerometer" {
 //        didSet {
@@ -372,7 +374,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 //        do {
         guard let destinationVC = self.presentingViewController as? HomeViewController
             else {
-                var destinationVC = HomeViewController()
+                let destinationVC = HomeViewController()
                 destinationVC.messages = self.messages!
                 self.dismiss(animated: true, completion: nil)
                 return
@@ -392,11 +394,19 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     
     // MARK:- tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        do { return messages!.count
-        } catch{
-            messages = [Message]()
-            return messages!.count
+        guard let messages = self.messages
+            else {
+                var messages = [Message]()
+                return messages.count
         }
+        
+        return messages.count
+//
+//        do { return messages!.count
+//        } catch{
+//            messages = [Message]()
+//            return messages!.count
+//        }
         
     }
     
@@ -480,9 +490,77 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         
     }
     
+    
+    func createTimeStamp() -> String{
+        let now = Date()
+        
+        let formatter = DateFormatter()
+        
+        formatter.timeZone = TimeZone.current
+        
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        let dateString = formatter.string(from: now)
+        return dateString
+    }
+    
+    
+    func saveToFile(fileName: String, stringToWrite: String){
+        let fileManager = FileManager.default
+        do {
+            let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create: true)
+            let fileURL = documentDirectory.appendingPathComponent(fileName).appendingPathExtension("txt")
+            print("File Path: \(fileURL.path)")
+            print("WRITING TO FILE")
+//            let stringToWrite = stringToWrite.joined(separator: "\n")
+            
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                print("FILE NAME ALREADY EXISTS")
+                var err:NSError?
+                do{
+                 let fileHandle = try FileHandle(forWritingTo: fileURL)
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(Data(stringToWrite.utf8))
+                    fileHandle.closeFile()
+//                else {
+                
+//                }
+                } catch{
+                    print("Can't open fileHandle \(err)")
+//                    try stringToWrite.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+                }
+            } else {
+                try stringToWrite.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+            }
+            
+//            try stringToWrite.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+            
+        } catch {
+            print(error)
+        }
+        
+    }
+    
     // MARK:- send message
     func sendMessage(_ message: Message) {
         messages!.append(message)
+        
+        self.stringToWrite = self.createTimeStamp()
+        
+        
+        switch message.type {
+        case .user:
+            self.stringToWrite = self.stringToWrite! + ", user"
+        case .botText:
+            self.stringToWrite = self.stringToWrite! + ", bot"
+        case .botForecast:
+            self.stringToWrite = self.stringToWrite! + ", botForecast"
+        }
+        
+        self.stringToWrite = self.stringToWrite! + ", " + message.text + " \n"
+        
+        self.saveToFile(fileName: "messages", stringToWrite: self.stringToWrite!)
+        
 //        self.homeViewMessages = messages
         tableView.beginUpdates()
         tableView.re.insertRows(at: [IndexPath(row: messages!.count - 1, section: 0)], with: .automatic)
