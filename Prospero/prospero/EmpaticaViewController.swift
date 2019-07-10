@@ -14,6 +14,7 @@
 import UIKit
 import CoreData
 import Accelerate
+<<<<<<< HEAD
 import PromiseKit
 import AVFoundation
 
@@ -21,6 +22,12 @@ import AVFoundation
 class EmpaticaViewController: UIViewController {
     var ibiList: [Float] = []
 
+=======
+
+class EmpaticaViewController: UIViewController {
+    
+    var ibiList: [Float] = []
+>>>>>>> added calculation
     
     static let EMPATICA_API_KEY = "62e322cb9dac410e9041afc08d977669"
     var empaticaStatus: Bool = false
@@ -300,12 +307,16 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
+<<<<<<< HEAD
         
+=======
+>>>>>>> added calculation
         var rmssd: Float = 0.0
         var sdnn: Float = 0.0
         var ratio: Float = 0.0
         var mean: Float = 0.0
         var ssd: [Float] = []
+<<<<<<< HEAD
     
         ibiList.append(ibi)
         
@@ -313,11 +324,20 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         if ibiList.count > 30 {
             print("IBI LIST COUNT >>>>")
 
+=======
+        
+        ibiList.append(ibi)
+        
+        if ibiList.count > 60 {
+>>>>>>> added calculation
             // Calculate RMSSD
             for i in 0..<(ibiList.count-1) {
                 ssd.append(ibiList[i]-ibiList[i+1])
             }
+<<<<<<< HEAD
             
+=======
+>>>>>>> added calculation
             vDSP_rmsqv(ssd, 1, &rmssd, vDSP_Length(ssd.count))
             
             // Calculate SDNN
@@ -328,6 +348,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             ibiList.remove(at: 0)
             
             print(rmssd, sdnn, ratio)
+<<<<<<< HEAD
             
             if (ratio < 0.8 && ratio > 0) {
             print("RELAXED")
@@ -338,6 +359,11 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
         }
         
+=======
+        }
+        
+        
+>>>>>>> added calculation
         var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
         
         print(stringToWrite)
@@ -345,15 +371,15 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
     }
     
-//    func didReceiveHR(_ hr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-//        
-//        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  HR { \(hr) }\n"
-//        
-//        print(stringToWrite)
-//        self.saveToFile(fileName: "hr", stringToWrite: stringToWrite)
-//        
-//    }
-//    
+    func didReceiveHR(_ hr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        
+        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  HR { \(hr) }\n"
+        
+        print(stringToWrite)
+        self.saveToFile(fileName: "hr", stringToWrite: stringToWrite)
+        
+    }
+    
     
     func didReceiveAccelerationX(_ x: Int8, y: Int8, z: Int8, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
