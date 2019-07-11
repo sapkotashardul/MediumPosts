@@ -13,9 +13,12 @@
 
 import UIKit
 import CoreData
+import Accelerate
+
 
 class EmpaticaViewController: UIViewController {
-    
+    var ibiList: [Float] = []
+
     
     static let EMPATICA_API_KEY = "62e322cb9dac410e9041afc08d977669"
     var empaticaStatus: Bool = false
@@ -289,6 +292,34 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
+        
+        var rmssd: Float = 0.0
+        var sdnn: Float = 0.0
+        var ratio: Float = 0.0
+        var mean: Float = 0.0
+        var ssd: [Float] = []
+    
+        ibiList.append(ibi)
+        
+        if ibiList.count > 60 {
+            // Calculate RMSSD
+            for i in 0..<(ibiList.count-1) {
+                ssd.append(ibiList[i]-ibiList[i+1])
+            }
+            
+            vDSP_rmsqv(ssd, 1, &rmssd, vDSP_Length(ssd.count))
+            
+            // Calculate SDNN
+            vDSP_normalize(ibiList, 1, nil, 1, &mean, &sdnn, vDSP_Length(ibiList.count - 1))
+            
+            ratio = sdnn/rmssd
+            
+            ibiList.remove(at: 0)
+            
+            print(rmssd, sdnn, ratio)
+        }
+        
+
         var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
         
         print(stringToWrite)

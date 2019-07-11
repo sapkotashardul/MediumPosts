@@ -38,6 +38,31 @@ class AIService {
 //        self.headers = aiRequest.getHeaders()
 //    }
     
+    
+    func triggerEvent(eventName: String)-> Promise<Message> {
+       let requestEvent = ApiAI.shared()?.eventRequest()
+        requestEvent?.event = AIEvent(name: eventName)
+        
+        return Promise { fulfill, reject in
+            
+            requestEvent?.setMappedCompletionBlockSuccess({ (requestEvent, response) in
+                let response = response as! AIResponse
+                if let textResponse = response.result.fulfillment.speech {
+                    self.msg = Message(text: textResponse, date: Date(), type: .botText)
+                    fulfill(self.msg!)
+                }
+            }, failure: { (requestEvent, error) in
+                print(error!)
+                self.msg = Message(text: "No message found", date: Date(), type: .botText)
+                reject(error!)
+            })
+            
+            ApiAI.shared().enqueue(requestEvent)
+            
+        }
+        
+    }
+    
     func sendMessage(aiRequest: AIRequest)-> Promise<Message> {
         let request = ApiAI.shared().textRequest()
         

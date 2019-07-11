@@ -303,6 +303,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 
     voiceOverlayController.settings.layout.inputScreen.titleInProgress = ""
         
+        sendWelcomeMessage()
         
     }
     
@@ -602,17 +603,43 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     func sendWelcomeMessage() {
         let firstTime = true
         if firstTime {
-            let text = "Welcome to Prospero!"
+//            let text = "Welcome to Prospero!"
             
             
-            let utterance = AVSpeechUtterance(string: text)
+            //Promise block
+            firstly{
+                self.aiService.triggerEvent(eventName: "Welcome")
+                }.then { (message) -> Void in
+                    self.sendMessage(self.aiService.msg!)
+                    
+                    let utterance = AVSpeechUtterance(string: message.text)
+                    
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                    self.speechSynthesizer.speak(utterance)
+                    
+                    // reduce everything to 1/16 th of the entire text count
+                    let textCountLength = message.text.count / 16
+                    
+                    let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(textCountLength), repeats: false) { (timer) in
+                        // do stuff 42 seconds later
+                        if self.tappedRecordingButton {                     self.microphone()
+                        }
+                    }
+                    
+                }.catch{ (error) in
+                    //oh noes error
+            }
 
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-
-//            self.speechSynthesizer.speak(utterance)
             
-            let message = Message(text: text, date: Date(), type: .botText)
-            messages!.append(message)
+            
+//            let utterance = AVSpeechUtterance(string: text)
+//
+//            utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+//
+////            self.speechSynthesizer.speak(utterance)
+//
+//            let message = Message(text: text, date: Date(), type: .botText)
+//            messages!.append(message)
         }
     }
 }
