@@ -5,33 +5,24 @@
 //  Created by Shardul Sapkota on 6/18/19.
 //  Copyright © 2019 Enrico Piovesan. All rights reserved.
 //
-
 //
 //  ViewController.swift
 //  E4 tester
 //
-
 import UIKit
 import CoreData
 import Accelerate
-<<<<<<< HEAD
 import PromiseKit
 import AVFoundation
 
 
 class EmpaticaViewController: UIViewController {
     var ibiList: [Float] = []
-
-=======
-
-class EmpaticaViewController: UIViewController {
     
-    var ibiList: [Float] = []
->>>>>>> added calculation
     
     static let EMPATICA_API_KEY = "62e322cb9dac410e9041afc08d977669"
     var empaticaStatus: Bool = false
-//    var homeVC : HomeViewController = HomeViewController()
+    //    var homeVC : HomeViewController = HomeViewController()
     
     
     private var devices: [EmpaticaDeviceManager] = []
@@ -43,7 +34,7 @@ class EmpaticaViewController: UIViewController {
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
     var speechPaused: Bool = false
     var userFinishedSpeaking: Bool = false
-
+    
     
     private var allDisconnected : Bool {
         
@@ -52,37 +43,37 @@ class EmpaticaViewController: UIViewController {
             value && device.deviceStatus == kDeviceStatusDisconnected
         }
     }
-
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-//        initEmpatica()
+        //        initEmpatica()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        //1
-//        guard let appDelegate =
-//            UIApplication.shared.delegate as? AppDelegate else {
-//                return
-//        }
-//
-//        let managedContext =
-//            appDelegate.persistentContainer.viewContext
-//
-//        //2
-//        let fetchRequest =
-//            NSFetchRequest<NSManagedObject>(entityName: "EmpaticaStatus")
-//
-//        //3
-//        do {
-//            empaticaStatus = try managedContext.fetch(fetchRequest) as! [EmpaticaStatus]
-//        } catch let error as NSError {
-//            print("Could not fetch. \(error), \(error.userInfo)")
-//        }
-//    }
-//
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        super.viewWillAppear(animated)
+    //
+    //        //1
+    //        guard let appDelegate =
+    //            UIApplication.shared.delegate as? AppDelegate else {
+    //                return
+    //        }
+    //
+    //        let managedContext =
+    //            appDelegate.persistentContainer.viewContext
+    //
+    //        //2
+    //        let fetchRequest =
+    //            NSFetchRequest<NSManagedObject>(entityName: "EmpaticaStatus")
+    //
+    //        //3
+    //        do {
+    //            empaticaStatus = try managedContext.fetch(fetchRequest) as! [EmpaticaStatus]
+    //        } catch let error as NSError {
+    //            print("Could not fetch. \(error), \(error.userInfo)")
+    //        }
+    //    }
+    //
     
     
     func get_devices() -> [EmpaticaDeviceManager]{
@@ -90,7 +81,7 @@ class EmpaticaViewController: UIViewController {
     }
     
     
-
+    
     
     func initEmpatica(backButton: UIButton){
         
@@ -112,7 +103,7 @@ class EmpaticaViewController: UIViewController {
         }
     }
     
-   private func discover() {
+    private func discover() {
         EmpaticaAPI.discoverDevices(with: self)
     }
     
@@ -132,44 +123,44 @@ class EmpaticaViewController: UIViewController {
         device.connect(with: self)
     }
     
-//    private func updateValue(device : EmpaticaDeviceManager, string : String = "") {
-//
-//        if let row = self.devices.index(of: device) {
-//
-//            DispatchQueue.main.async {
-//
-//                for cell in self.tableView.visibleCells {
-//
-//                    if let cell = cell as? DeviceTableViewCell {
-//
-//                        if cell.device == device {
-//
-//                            let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: 0))
-//
-//                            if !device.allowed {
-//
-//                                cell?.detailTextLabel?.text = "NOT ALLOWED"
-//
-//                                cell?.detailTextLabel?.textColor = UIColor.orange
-//                            }
-//                            else if string.count > 0 {
-//
-//                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(string)"
-//
-//                                cell?.detailTextLabel?.textColor = UIColor.gray
-//                            }
-//                            else {
-//
-//                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
-//
-//                                cell?.detailTextLabel?.textColor = UIColor.gray
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    //    private func updateValue(device : EmpaticaDeviceManager, string : String = "") {
+    //
+    //        if let row = self.devices.index(of: device) {
+    //
+    //            DispatchQueue.main.async {
+    //
+    //                for cell in self.tableView.visibleCells {
+    //
+    //                    if let cell = cell as? DeviceTableViewCell {
+    //
+    //                        if cell.device == device {
+    //
+    //                            let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: 0))
+    //
+    //                            if !device.allowed {
+    //
+    //                                cell?.detailTextLabel?.text = "NOT ALLOWED"
+    //
+    //                                cell?.detailTextLabel?.textColor = UIColor.orange
+    //                            }
+    //                            else if string.count > 0 {
+    //
+    //                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(string)"
+    //
+    //                                cell?.detailTextLabel?.textColor = UIColor.gray
+    //                            }
+    //                            else {
+    //
+    //                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
+    //
+    //                                cell?.detailTextLabel?.textColor = UIColor.gray
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     private func deviceStatusDisplay(status : DeviceStatus) -> String {
         
@@ -238,9 +229,9 @@ extension EmpaticaViewController: EmpaticaDelegate {
                 if (!self.devices.isEmpty){
                     self.connect(device: self.devices[0])
                 }
-
+                
                 if self.allDisconnected {
-
+                    
                     EmpaticaAPI.discoverDevices(with: self)
                 }
                 
@@ -304,40 +295,27 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
         print("\(device.serialNumber!) { \(timestamp) }, TEMP { \(temp) }")
     }
-
+    
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-<<<<<<< HEAD
         
-=======
->>>>>>> added calculation
         var rmssd: Float = 0.0
         var sdnn: Float = 0.0
         var ratio: Float = 0.0
         var mean: Float = 0.0
         var ssd: [Float] = []
-<<<<<<< HEAD
-    
+        
         ibiList.append(ibi)
         
-
+        
         if ibiList.count > 30 {
             print("IBI LIST COUNT >>>>")
-
-=======
-        
-        ibiList.append(ibi)
-        
-        if ibiList.count > 60 {
->>>>>>> added calculation
+            
             // Calculate RMSSD
             for i in 0..<(ibiList.count-1) {
                 ssd.append(ibiList[i]-ibiList[i+1])
             }
-<<<<<<< HEAD
             
-=======
->>>>>>> added calculation
             vDSP_rmsqv(ssd, 1, &rmssd, vDSP_Length(ssd.count))
             
             // Calculate SDNN
@@ -348,22 +326,16 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             ibiList.remove(at: 0)
             
             print(rmssd, sdnn, ratio)
-<<<<<<< HEAD
             
             if (ratio < 0.8 && ratio > 0) {
-            print("RELAXED")
+                print("RELAXED")
                 
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "calm_event"), object: nil)
-
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "calm_event"), object: nil)
+                
             }
             
         }
         
-=======
-        }
-        
-        
->>>>>>> added calculation
         var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
         
         print(stringToWrite)
@@ -371,15 +343,15 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
     }
     
-    func didReceiveHR(_ hr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-        
-        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  HR { \(hr) }\n"
-        
-        print(stringToWrite)
-        self.saveToFile(fileName: "hr", stringToWrite: stringToWrite)
-        
-    }
-    
+    //    func didReceiveHR(_ hr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+    //
+    //        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  HR { \(hr) }\n"
+    //
+    //        print(stringToWrite)
+    //        self.saveToFile(fileName: "hr", stringToWrite: stringToWrite)
+    //
+    //    }
+    //
     
     func didReceiveAccelerationX(_ x: Int8, y: Int8, z: Int8, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
@@ -402,42 +374,42 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         print(stringToWrite)
         
         self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
-
-//        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
+        
+        //        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }
- 
     
     
-//    func saveDeviceStatus(connected: Bool){
-//        guard let appDelegate =
-//            UIApplication.shared.delegate as? AppDelegate else {
-//                return
-//        }
-//
-//        let managedContext =
-//            appDelegate.persistentContainer.viewContext
-//
-//        let entity =
-//            NSEntityDescription.entity(forEntityName: "EmpaticaStatus",
-//                                       in: managedContext)!
-//
-//        self.empaticaStatus = EmpaticaStatus(entity: entity,
-//                               insertInto: managedContext)
-//
-//        self.empaticaStatus?.empaticaStatus = connected
-//
-//        do {
-//            try managedContext.save()
-//
-//        } catch let error as NSError {
-//            print("Could not save. \(error), \(error.userInfo)")
-//        }
-//    }
-//
+    
+    //    func saveDeviceStatus(connected: Bool){
+    //        guard let appDelegate =
+    //            UIApplication.shared.delegate as? AppDelegate else {
+    //                return
+    //        }
+    //
+    //        let managedContext =
+    //            appDelegate.persistentContainer.viewContext
+    //
+    //        let entity =
+    //            NSEntityDescription.entity(forEntityName: "EmpaticaStatus",
+    //                                       in: managedContext)!
+    //
+    //        self.empaticaStatus = EmpaticaStatus(entity: entity,
+    //                               insertInto: managedContext)
+    //
+    //        self.empaticaStatus?.empaticaStatus = connected
+    //
+    //        do {
+    //            try managedContext.save()
+    //
+    //        } catch let error as NSError {
+    //            print("Could not save. \(error), \(error.userInfo)")
+    //        }
+    //    }
+    //
     
     func didUpdate( _ status: DeviceStatus, forDevice device: EmpaticaDeviceManager!) {
         
-
+        
         switch status {
             
         case kDeviceStatusDisconnected:
@@ -446,7 +418,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
             backButton.backgroundColor = UIColor.black.withAlphaComponent(0.7)
             empaticaStatus = false
-//            saveDeviceStatus(false)
+            //            saveDeviceStatus(false)
             self.restartDiscovery()
             
             break
@@ -459,7 +431,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         case kDeviceStatusConnected:
             
             print("[didUpdate] Connected \(device.serialNumber!).")
-//            saveDeviceStatus(true)
+            //            saveDeviceStatus(true)
             empaticaStatus = true
             backButton.backgroundColor = UIColor.green.withAlphaComponent(0.7)
             break
@@ -507,7 +479,6 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 ////        self.updateValue(device: device)
 //    }
 //}
-
 //extension EmpaticaViewController {
 //
 //    override func numberOfSections(in tableView: UITableView) -> Int {
@@ -537,7 +508,6 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 //        return cell
 //    }
 //}
-
 class DeviceTableViewCell : UITableViewCell {
     
     
