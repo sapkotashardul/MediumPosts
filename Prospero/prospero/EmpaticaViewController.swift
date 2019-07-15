@@ -14,6 +14,8 @@
 import UIKit
 import CoreData
 import Accelerate
+import PromiseKit
+import AVFoundation
 
 
 class EmpaticaViewController: UIViewController {
@@ -27,8 +29,14 @@ class EmpaticaViewController: UIViewController {
     
     private var devices: [EmpaticaDeviceManager] = []
     
-//    var chatVC = ChatViewController().backbu
     var backButton = UIButton()
+    let aiService: AIService = AIService()
+    
+    var speechSynthesizer = AVSpeechSynthesizer()
+    var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
+    var speechPaused: Bool = false
+    var userFinishedSpeaking: Bool = false
+
     
     private var allDisconnected : Bool {
         
@@ -301,7 +309,10 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
         ibiList.append(ibi)
         
-        if ibiList.count > 60 {
+
+        if ibiList.count > 30 {
+            print("IBI LIST COUNT >>>>")
+
             // Calculate RMSSD
             for i in 0..<(ibiList.count-1) {
                 ssd.append(ibiList[i]-ibiList[i+1])
@@ -317,9 +328,16 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             ibiList.remove(at: 0)
             
             print(rmssd, sdnn, ratio)
+            
+            if (ratio < 0.8 && ratio > 0) {
+            print("RELAXED")
+                
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "calm_event"), object: nil)
+
+            }
+            
         }
         
-
         var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
         
         print(stringToWrite)
