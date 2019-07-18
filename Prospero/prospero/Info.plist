@@ -17,11 +17,24 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Need to connect to the E4 wristband</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need your location for application features</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location for some awesome features.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need the mic for audio to text</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Need the speech recognition capabilities</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
@@ -48,15 +61,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need the mic for audio to text</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Need the speech recognition capabilities</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
