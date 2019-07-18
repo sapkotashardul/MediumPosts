@@ -14,6 +14,7 @@ import Alamofire
 import PromiseKit
 import AVFoundation
 import InstantSearchVoiceOverlay
+import UserNotifications
 
 class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate{
     
@@ -29,6 +30,10 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     var constraint: NSLayoutConstraint?
     let aiService: AIService = AIService()
     let voiceOverlayController = VoiceOverlayController()
+    
+    let notificationManager = LocalNotificationManager()
+    var notifications: [LocalNotificationManager.Notification]?
+
     
 //    var backButton: UIButton = UIButton()
 
@@ -141,6 +146,13 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let center = UNUserNotificationCenter.current()
+        // Request permission to display alerts and play sounds.
+        center.requestAuthorization(options: [.alert, .sound])
+        { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
 
         self.recordingFinished = voiceOverlayController.inputViewController?.recordingFinished ?? false
         
@@ -340,6 +352,13 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 
                 self.sendMessage(message)
                 
+                var notif = LocalNotificationManager.Notification(id:"Relaxed", title:message.text)
+                
+                self.notificationManager.notifications.append(notif)
+                print("SCHEDULING NOTIFICAITON")
+                self.notificationManager.schedule()
+
+                
                 //                        // reduce everything to 1/16 th of the entire text count
                 //                        let textCountLength = message.text.count / 16
                 //
@@ -352,6 +371,9 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             }.catch{ (error) in
                 //oh noes error
         }
+        
+        
+
         
     }
 

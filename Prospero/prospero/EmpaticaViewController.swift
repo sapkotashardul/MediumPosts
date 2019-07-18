@@ -36,6 +36,10 @@ class EmpaticaViewController: UIViewController {
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
     var speechPaused: Bool = false
     var userFinishedSpeaking: Bool = false
+    
+    var isRelaxed: Bool = false
+    var relaxTime: Double?
+    var relaxCount: Int = 0
 
     
     private var allDisconnected : Bool {
@@ -332,8 +336,19 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             if (ratio < 0.8 && ratio > 0) {
             print("RELAXED")
                 
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "calm_event"), object: nil)
-
+//                if (relaxCount == 0) {
+                if (!self.isRelaxed) {
+                    self.relaxTime = timestamp
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "calm_event"), object: nil)
+//                    relaxCount += 1
+                    self.isRelaxed = true
+                } else {
+                    if ((timestamp - self.relaxTime!) > 60){ // 120 seconds
+//                        relaxCount = 0
+                        self.isRelaxed = false
+                    }
+                }
+                
             }
             
         }
@@ -341,7 +356,8 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
         
         print(stringToWrite)
-        self.saveToFile(fileName: "ibi", stringToWrite: stringToWrite)
+        
+//        self.saveToFile(fileName: "ibi", stringToWrite: stringToWrite)
         
     }
     
@@ -361,7 +377,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
         print(stringToWrite)
         
-        self.saveToFile(fileName: "acc", stringToWrite: stringToWrite)
+//        self.saveToFile(fileName: "acc", stringToWrite: stringToWrite)
     }
     
     func didReceiveTag(atTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
@@ -375,7 +391,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
         print(stringToWrite)
         
-        self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
+//        self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
 
 //        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }
