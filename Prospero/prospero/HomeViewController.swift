@@ -121,10 +121,13 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
                                                     //if fileURL.path does not exist then continue the loop without doing anything 
                                                     
                                                     print("File Path: \(fileURL.path)")
+                                                  
+                                               if FileManager.default.fileExists(atPath: fileURL.path) {
                                                     let fileData = NSData(contentsOfFile: fileURL.path)
                                                     print("File data loaded.")
                                                     // TO DO {do catch} inside attachment
                                                 mail.addAttachmentData(fileData! as Data, mimeType: "text/txt", fileName: fileName + ".txt")
+                                                }
                                                 }
                                                 self.present(mail, animated: true, completion: nil)
                                             }
