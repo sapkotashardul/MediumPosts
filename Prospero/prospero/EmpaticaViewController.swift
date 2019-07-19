@@ -353,11 +353,11 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
         }
         
-        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }"
+        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }, { \(60/ibi) }, { \(rmssd) }, { \(sdnn) }, { \(ratio) } "
         
         print(stringToWrite)
         
-//        self.saveToFile(fileName: "ibi", stringToWrite: stringToWrite)
+        self.saveToFile(fileName: "ibi", stringToWrite: stringToWrite)
         
     }
     
@@ -377,7 +377,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
         print(stringToWrite)
         
-//        self.saveToFile(fileName: "acc", stringToWrite: stringToWrite)
+        self.saveToFile(fileName: "acc", stringToWrite: stringToWrite)
     }
     
     func didReceiveTag(atTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
@@ -391,7 +391,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         
         print(stringToWrite)
         
-//        self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
+        self.saveToFile(fileName: "gsr", stringToWrite: stringToWrite)
 
 //        self.updateValue(device: device, string: "\(String(format: "%.2f", abs(gsr))) µS")
     }

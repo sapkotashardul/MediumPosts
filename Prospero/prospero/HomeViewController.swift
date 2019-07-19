@@ -117,6 +117,9 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
                                                     let fileManager = FileManager.default
                                                     let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create: true)
                                                     let fileURL = documentDirectory.appendingPathComponent(fileName).appendingPathExtension("txt")
+                                                    
+                                                    //if fileURL.path does not exist then continue the loop without doing anything 
+                                                    
                                                     print("File Path: \(fileURL.path)")
                                                     let fileData = NSData(contentsOfFile: fileURL.path)
                                                     print("File data loaded.")
@@ -134,7 +137,7 @@ class HomeViewController: UIViewController, UIViewControllerTransitioningDelegat
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         emailAlertController.addTextField()
-        emailAlertController.textFields?.first?.text = "sapkota@mit.edu"
+        emailAlertController.textFields?.first?.text = "schb421@aucklanduni.ac.nz"
         emailAlertController.addAction(sendEmail)
         emailAlertController.addAction(cancelAction)
         
