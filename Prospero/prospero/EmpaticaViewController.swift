@@ -373,7 +373,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
     func didReceiveAccelerationX(_ x: Int8, y: Int8, z: Int8, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-        var stringToWrite = "\(device.serialNumber!), { \(timestamp) }, ACC > {x: \(x), y: \(y), z: \(z)}\n"
+        var stringToWrite = "\(device.serialNumber!),\(timestamp), \(x), \(y), \(z)\n"
         
         print(stringToWrite)
         
@@ -387,7 +387,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
     
     func didReceiveGSR(_ gsr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
-        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  GSR { \(abs(gsr)) }\n"
+        var stringToWrite = "\(device.serialNumber!), \(timestamp),  \(abs(gsr))\n"
         
         print(stringToWrite)
         
