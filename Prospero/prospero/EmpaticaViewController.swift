@@ -343,7 +343,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
 //                    relaxCount += 1
                     self.isRelaxed = true
                 } else {
-                    if ((timestamp - self.relaxTime!) > 60){ // 120 seconds
+                    if ((timestamp - self.relaxTime!) > 18000){ // 120 seconds //18000s = 5h
 //                        relaxCount = 0
                         self.isRelaxed = false
                     }
@@ -353,7 +353,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
         }
         
-        var stringToWrite = "\(device.serialNumber!), { \(timestamp) },  IBI { \(ibi) }, { \(60/ibi) }, { \(rmssd) }, { \(sdnn) }, { \(ratio) } "
+        var stringToWrite = "\(device.serialNumber!), \(timestamp),  \(ibi), \(60/ibi), \(rmssd), \(sdnn), \(ratio) \n"
         
         print(stringToWrite)
         
