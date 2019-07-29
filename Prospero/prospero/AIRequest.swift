@@ -22,7 +22,7 @@ class AIRequest {
     }
     
     func getHeaders() -> HTTPHeaders {
-        let clientAccessToken = "8c253081ae5e4dfe88c2074b8ff51d4c"
+        let clientAccessToken = "8c253081ae5e4dfe88c2074b8ff51d4c" // Prospero ITW use 1fc3753d570742abb12a15419883cd34
         let headers: HTTPHeaders = [
             "Authorization": "Bearer " + clientAccessToken,
             ]
