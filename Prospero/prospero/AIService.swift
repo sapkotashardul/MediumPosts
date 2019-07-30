@@ -28,7 +28,7 @@ class AIService {
     init(){
         let configuration = AIDefaultConfiguration()
         let apiai = ApiAI.shared()
-        configuration.clientAccessToken = "8c253081ae5e4dfe88c2074b8ff51d4c" // for Prospero ITW use 1fc3753d570742abb12a15419883cd34
+        configuration.clientAccessToken = "1fc3753d570742abb12a15419883cd34"// Prosero v1 use "8c253081ae5e4dfe88c2074b8ff51d4c" // for Prospero ITW use 1fc3753d570742abb12a15419883cd34
         apiai?.configuration = configuration
         speechSynthesizer = AVSpeechSynthesizer()
     }
