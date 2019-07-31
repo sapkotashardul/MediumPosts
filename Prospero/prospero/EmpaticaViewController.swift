@@ -314,7 +314,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         ibiList.append(ibi)
         
 
-        if ibiList.count > 30 {
+        if ibiList.count > 60 {
             print("IBI LIST COUNT >>>>")
 
             // Calculate RMSSD
@@ -331,10 +331,10 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
             ibiList.remove(at: 0)
             
-            print(rmssd, sdnn, ratio)
+            print("RMSSD {\(rmssd)}, SDNN {\(sdnn)}, Ratio {\(ratio)}")
             
             if (ratio < 2.2 && ratio > 1.1) {
-            print("RELAXED")
+            print("RELAXED at Ratio \(ratio)")
                 
 //                if (relaxCount == 0) {
                 if (!self.isRelaxed) {
