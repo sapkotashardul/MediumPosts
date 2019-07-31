@@ -333,7 +333,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
             
             print(rmssd, sdnn, ratio)
             
-            if (ratio < 0.8 && ratio > 0) {
+            if (ratio < 2.2 && ratio > 1.1) {
             print("RELAXED")
                 
 //                if (relaxCount == 0) {
