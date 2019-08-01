@@ -122,13 +122,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate
     }
     
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    {
-        let id = notification.request.identifier
-        print("Received notification with ID = \(id)")
-        //        print(notification.request.content)
-        
-        completionHandler([.sound, .alert])
-    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+//    {
+//        let id = notification.request.identifier
+//        print("Received notification with ID = \(id)")
+//        //        print(notification.request.content)
+//
+//        completionHandler([.sound, .alert])
+//    }
     
 }
