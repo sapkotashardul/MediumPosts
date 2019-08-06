@@ -311,7 +311,7 @@ extension EmpaticaViewController: EmpaticaDeviceDelegate {
         var mean: Float = 0.0
         var ssd: [Float] = []
     
-        ibiList.append(ibi)
+        ibiList.append(ibi*1000)
         
 
         if ibiList.count > 60 {

@@ -50,6 +50,7 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
     private var devices: [EmpaticaDeviceManager] = []
     
     //speech syntehsizer
+    let audioSession = AVAudioSession.sharedInstance()
     var speechSynthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance()
     var speechPaused: Bool = false
@@ -346,6 +347,20 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
             }.then { (message) -> Void in
                 //                        self.chatVC?.sendMessage(self.aiService.msg!)
                 print("CALM EVENT TRIGGERED")
+                
+                do
+                {
+                    try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                    try self.audioSession.setMode(AVAudioSessionModeDefault)
+                    //                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    try self.audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                }
+                catch
+                {
+                    print("audioSession properties weren't set because of an error.")
+                }
+                
                 let utterance = AVSpeechUtterance(string: message.text)
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                 self.speechSynthesizer.speak(utterance)
@@ -511,6 +526,18 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
                 self.aiService.sendMessage(aiRequest: aiRequest)
             }.then { (message) -> Void in
                 self.sendMessage(self.aiService.msg!)
+                do
+                {
+                    try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                    try self.audioSession.setMode(AVAudioSessionModeDefault)
+                    //                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    try self.audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                    try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                }
+                catch
+                {
+                    print("audioSession properties weren't set because of an error.")
+                }
                 
                 let utterance = AVSpeechUtterance(string: message.text)
                 
@@ -659,12 +686,25 @@ class ChatViewController: UIViewController, UITextViewDelegate, UITableViewDataS
         if firstTime {
 //            let text = "Welcome to Prospero!"
             
-            
+
             //Promise block
             firstly{
                 self.aiService.triggerEvent(eventName: "Welcome")
                 }.then { (message) -> Void in
                     self.sendMessage(self.aiService.msg!)
+                    
+                    do
+                    {
+                        try self.audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        try self.audioSession.setMode(AVAudioSessionModeDefault)
+                        //                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                        try self.audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                        try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+                    }
+                    catch
+                    {
+                        print("audioSession properties weren't set because of an error.")
+                    }
                     
                     let utterance = AVSpeechUtterance(string: message.text)
                     
